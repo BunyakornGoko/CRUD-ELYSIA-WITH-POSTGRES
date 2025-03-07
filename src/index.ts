@@ -1,13 +1,15 @@
-import { Elysia, t } from 'elysia'
-import { swagger } from '@elysiajs/swagger'
+import { Elysia } from "elysia"
+import { swagger } from "@elysiajs/swagger"
+import { note } from "./note"
+import { initDB } from "./db/config"
 
-import { note } from './note'
+const app = new Elysia().use(swagger()).use(note)
 
-const app = new Elysia()
-    .use(swagger())
-    .use(note) 
-    .listen(3000)
+// Initialize the database before starting the server
+await initDB()
+
+app.listen(3000)
 
 console.log(
   `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
-);
+)
